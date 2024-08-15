@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
-import dj_database_url
+# import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,9 +27,9 @@ SECRET_KEY = "django-insecure-%t!*it15gpnr2*lego0_3@l=$drjajm8ihs_$93u!wcmy5iaif
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".vercel.app","now.sh","localhost","127.0.0.1","kumaresan.interniq.tech"]
+ALLOWED_HOSTS = ["*"]
 
-DATABASE_URL = "postgresql://postgres:WkoHIFshxOlrZIudZYwNdaEUjIJmVefe@viaduct.proxy.rlwy.net:53205/railway"
+# DATABASE_URL = "postgresql://postgres:WkoHIFshxOlrZIudZYwNdaEUjIJmVefe@viaduct.proxy.rlwy.net:53205/railway"
 
 # Application definition
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -77,20 +78,17 @@ WSGI_APPLICATION = "portfolio.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "railway",  # PGDATABASE
-#         "USER": "postgres",  # PGUSER
-#         "PASSWORD": "JbzKWPnueStJTmJorCNPkIddxDVxZUSl",  # PGPASSWORD
-#         "HOST": "postgres.railway.internal",  # PGHOST
-#         "PORT": "5432",  # PGPORT
-#     }
-# }
-
+# 
 DATABASES = {
-    "default": dj_database_url.config(default=DATABASE_URL,conn_max_age=1800)
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+# DATABASES = {
+#     "default": dj_database_url.config(default=DATABASE_URL,conn_max_age=1800)
+# }
 
 
 # Password validation
@@ -132,10 +130,10 @@ STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
 ]
-
+STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
